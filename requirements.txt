@@ -1,0 +1,27 @@
+# ── Output layer ────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0      # loads .env (API keys, config)
+
+# ── Dashboard ────────────────────────────────────────────────────────────────
+streamlit>=1.35.0         # web dashboard (upload, progress bar, results)
+
+# ── Video fetcher agent ───────────────────────────────────────────────────────
+yt-dlp>=2024.1.0          # YouTube search + download (no API key needed)
+
+# ── Vision layer ─────────────────────────────────────────────────────────────
+# Install torch with CUDA FIRST if you have a GPU:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# Then install the rest. If CPU-only, just run: pip install -r requirements.txt
+ultralytics>=8.3.0        # YOLOv11 + YOLO-Pose (auto-installs torch on CPU)
+opencv-python>=4.9.0      # video frame reading/writing
+numpy>=1.26.0             # array math, coordinate operations
+
+# ── Player tracking + jersey OCR ─────────────────────────────────────────────
+supervision>=0.28.0       # ByteTrack multi-object tracker (Python 3.12-compatible)
+easyocr>=1.7.0            # jersey number OCR (digit reader)
+pillow>=10.3.0            # image handling used by easyocr + ultralytics
+
+# ── Action recognition (R(2+1)D) ─────────────────────────────────────────────
+# torch and torchvision are already pulled by ultralytics.
+# Listed here explicitly so the version is pinned for the R(2+1)D model.
+torch>=2.2.0
+torchvision>=0.17.0

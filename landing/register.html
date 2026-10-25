@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Beta Access — DeepCourt.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --clr-base-dk:   #054530;
+      --clr-accent-dk: #001c0f;
+      --clr-accent:    #7adb8f;
+      --clr-text-dk:   #fff;
+      --clr-text-lt:   #002b1a;
+      --clr-bg-lt:     #fff;
+      --radius:        6px;
+      --font-head:     'Poppins', sans-serif;
+      --font-body:     'Nunito Sans', sans-serif;
+    }
+
+    html, body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      background: var(--clr-base-dk);
+      color: var(--clr-text-dk);
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: var(--clr-accent-dk);
+    }
+    .logo {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--clr-text-dk);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo svg { width: 28px; height: 28px; }
+    .topbar-link {
+      font-family: var(--font-head);
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+    }
+    .topbar-link:hover { color: var(--clr-accent); }
+
+    /* ── Page layout ── */
+    .page {
+      display: flex;
+      min-height: calc(100vh - 64px);
+    }
+
+    /* ── Left panel — court art + tagline ── */
+    .left-panel {
+      flex: 0 0 460px;
+      background: var(--clr-accent-dk);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .left-panel svg.court-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.22;
+    }
+    .left-tagline {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .left-tagline h2 {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .left-tagline h2 span { color: var(--clr-accent); }
+    .left-tagline p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .left-stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .left-stat { text-align: center; }
+    .left-stat strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--clr-accent);
+    }
+    .left-stat span {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Right panel — form ── */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 52px 48px 80px;
+      overflow-y: auto;
+    }
+    .form-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 44px 44px 48px;
+      width: 100%;
+      max-width: 540px;
+      color: var(--clr-text-lt);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+    }
+    .form-card h1 {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--clr-base-dk);
+      margin-bottom: 6px;
+    }
+    .form-card .subtitle {
+      font-size: 14px;
+      color: rgba(0,43,26,0.55);
+      margin-bottom: 28px;
+    }
+
+    /* Google sign-in button */
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 13px 20px;
+      border: 1.5px solid #d4dde4;
+      border-radius: var(--radius);
+      background: #fff;
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 500;
+      color: #444;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      text-decoration: none;
+    }
+    .btn-google:hover { border-color: var(--clr-base-dk); background: #f7faf9; }
+    .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: rgba(0,43,26,0.35);
+      font-size: 13px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(0,43,26,0.12);
+    }
+
+    /* Form fields */
+    .form-row { display: flex; gap: 16px; }
+    .form-row .form-group { flex: 1; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--clr-base-dk);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-group label .req { color: #e06030; margin-left: 2px; }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #d4dde4;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--clr-text-lt);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--clr-base-dk);
+      box-shadow: 0 0 0 3px rgba(5,69,48,0.10);
+    }
+    .form-group input::placeholder { color: rgba(0,43,26,0.32); }
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid rgba(0,43,26,0.45);
+      pointer-events: none;
+    }
+
+    /* Age group badge (derived, read-only) */
+    .age-group-display {
+      padding: 11px 14px;
+      border: 1.5px solid #d4dde4;
+      border-radius: var(--radius);
+      font-size: 14px;
+      color: rgba(0,43,26,0.45);
+      background: #f5f8f6;
+      min-height: 43px;
+    }
+    .age-group-display.filled {
+      color: var(--clr-text-lt);
+      font-weight: 600;
+      background: rgba(122,219,143,0.10);
+      border-color: rgba(5,69,48,0.25);
+    }
+
+    /* Section label */
+    .section-divider {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(0,43,26,0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      margin: 24px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0,43,26,0.08);
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--clr-base-dk);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover { background: var(--clr-accent-dk); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(0,43,26,0.50);
+    }
+    .form-footer a { color: var(--clr-base-dk); font-weight: 600; text-decoration: none; }
+    .form-footer a:hover { text-decoration: underline; }
+
+    .legal {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 11.5px;
+      color: rgba(0,43,26,0.38);
+      line-height: 1.6;
+    }
+    .legal a { color: rgba(0,43,26,0.55); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .left-panel { display: none; }
+      .right-panel { padding: 32px 20px 60px; }
+      .form-card { padding: 32px 24px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 16px 20px; }
+      .form-row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="13" fill="#e87820"/>
+        <path d="M14 1v26M1 14h26" stroke="#fff" stroke-width="2"/>
+        <path d="M4 5Q14 14 24 23" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <path d="M24 5Q14 14 4 23" stroke="#fff" stroke-width="1.5" fill="none"/>
+      </svg>
+      DeepCourt
+    </a>
+    <a href="index.html" class="topbar-link">← Back to homepage</a>
+  </header>
+
+  <div class="page">
+
+    <!-- Left art panel -->
+    <aside class="left-panel">
+      <!-- Mini court background art -->
+      <svg class="court-bg" viewBox="0 0 460 600" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="30" width="400" height="540" fill="rgba(122,219,143,0.08)" stroke="rgba(122,219,143,0.40)" stroke-width="2.5"/>
+        <line x1="230" y1="30" x2="230" y2="570" stroke="rgba(122,219,143,0.35)" stroke-width="2"/>
+        <circle cx="230" cy="300" r="60" fill="none" stroke="rgba(122,219,143,0.35)" stroke-width="2"/>
+        <circle cx="230" cy="300" r="5" fill="rgba(122,219,143,0.5)"/>
+        <rect x="30" y="195" width="145" height="210" fill="rgba(155,60,18,0.22)" stroke="rgba(122,219,143,0.30)" stroke-width="1.5"/>
+        <rect x="285" y="195" width="145" height="210" fill="rgba(155,60,18,0.22)" stroke="rgba(122,219,143,0.30)" stroke-width="1.5"/>
+        <path d="M 175 195 A 60 60 0 0 1 175 405" fill="none" stroke="rgba(122,219,143,0.28)" stroke-width="1.5"/>
+        <path d="M 285 195 A 60 60 0 0 0 285 405" fill="none" stroke="rgba(122,219,143,0.28)" stroke-width="1.5"/>
+        <path d="M 30 90 A 230 230 0 0 1 30 510" fill="none" stroke="rgba(122,219,143,0.22)" stroke-width="1.5"/>
+        <path d="M 430 90 A 230 230 0 0 0 430 510" fill="none" stroke="rgba(122,219,143,0.22)" stroke-width="1.5"/>
+        <circle cx="100" cy="300" r="14" fill="none" stroke="rgba(255,175,60,0.60)" stroke-width="2"/>
+        <circle cx="360" cy="300" r="14" fill="none" stroke="rgba(255,175,60,0.60)" stroke-width="2"/>
+      </svg>
+
+      <div class="left-tagline">
+        <h2>See your game<br/>through <span>AI eyes</span></h2>
+        <p>Upload your footage and get professional-grade stats, play-by-play analysis, and personalized development insights — automatically.</p>
+      </div>
+      <div class="left-stats">
+        <div class="left-stat">
+          <strong>19+</strong>
+          <span>Players tracked</span>
+        </div>
+        <div class="left-stat">
+          <strong>253+</strong>
+          <span>Events detected</span>
+        </div>
+        <div class="left-stat">
+          <strong>3</strong>
+          <span>Smart feeds</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Registration form -->
+    <main class="right-panel">
+      <div class="form-card">
+        <h1>Join DeepCourt Open</h1>
+        <p class="subtitle">Beta access for Israeli basketball players — free while in beta.</p>
+
+        <!-- Google Sign In -->
+        <a href="http://localhost:8510/api/auth/google?intent=register" class="btn-google">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </a>
+
+        <div class="divider">or register with email</div>
+
+        <form id="registerForm" novalidate>
+
+          <!-- Name -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name <span class="req">*</span></label>
+              <input type="text" name="first_name" placeholder="Ran" required autocomplete="given-name"/>
+            </div>
+            <div class="form-group">
+              <label>Last Name <span class="req">*</span></label>
+              <input type="text" name="last_name" placeholder="Cohen" required autocomplete="family-name"/>
+            </div>
+          </div>
+
+          <!-- Email + Password -->
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="ran@maccabi.co.il" required autocomplete="email"/>
+          </div>
+          <div id="passwordSection">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Password <span class="req">*</span></label>
+                <input type="password" name="password" placeholder="Min. 8 characters" required minlength="8"/>
+              </div>
+              <div class="form-group">
+                <label>Confirm Password <span class="req">*</span></label>
+                <input type="password" name="confirm_password" placeholder="Repeat password" required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-divider">Player Profile</div>
+
+          <!-- Birth date + Age group -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Birth Date <span class="req">*</span></label>
+              <input type="date" name="birth_date" id="birthDate" required/>
+            </div>
+            <div class="form-group">
+              <label>Age Group</label>
+              <div class="age-group-display" id="ageGroupDisplay">Calculated from birth date</div>
+            </div>
+          </div>
+
+          <!-- Competition track -->
+          <div class="form-group">
+            <label>Competition Track <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select name="track" required>
+                <option value="" disabled selected>Select track</option>
+                <option value="boys">Boys (בנים)</option>
+                <option value="girls">Girls (בנות)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Club -->
+          <div class="form-group">
+            <label>Club <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select name="club" id="clubSelect" required>
+                <option value="" disabled selected>Select your club</option>
+                <optgroup label="מרכז / גוש דן / שרון">
+                  <option>מכבי תל אביב</option>
+                  <option>הפועל תל אביב</option>
+                  <option>בני הרצליה</option>
+                  <option>א.ס רמת השרון</option>
+                  <option>מכבי רעננה</option>
+                  <option>הפועל רעננה</option>
+                  <option>אליצור רעננה</option>
+                  <option>מכבי הוד השרון</option>
+                  <option>הפועל כפר סבא</option>
+                  <option>מכבי פתח תקווה</option>
+                  <option>מכבי מנדל פתח תקווה</option>
+                  <option>אליצור פתח תקווה</option>
+                  <option>הפועל רמת גן</option>
+                  <option>מכבי רמת גן</option>
+                  <option>אליצור רמת גן</option>
+                  <option>מכבי גבעת שמואל</option>
+                  <option>הפועל גבעתיים</option>
+                  <option>בני יהודה תל אביב</option>
+                  <option>מכבי שוהם</option>
+                  <option>מכבי קדימה צורן</option>
+                  <option>מ.ס אבן יהודה</option>
+                  <option>מכבי נתניה</option>
+                  <option>אליצור נתניה</option>
+                  <option>הפועל לב השרון</option>
+                  <option>הפועל עמק חפר</option>
+                  <option>הפועל חוף השרון</option>
+                  <option>מכבי תל מונד</option>
+                  <option>מכבי קיסריה</option>
+                  <option>מכבי פרדס חנה</option>
+                  <option>עירוני ראש העין</option>
+                  <option>מכבי אורנית</option>
+                  <option>מכבי שער שומרון</option>
+                  <option>מכבי אלפי מנשה</option>
+                  <option>מכבי גני תקווה</option>
+                  <option>מכבי בקעת אונו</option>
+                </optgroup>
+                <optgroup label="תל אביב / שפלה / ראשון">
+                  <option>מכבי ראשון לציון</option>
+                  <option>הפועל ראשון לציון</option>
+                  <option>מכבי רחובות</option>
+                  <option>אליצור רחובות</option>
+                  <option>אליצור יבנה</option>
+                  <option>הפועל נס ציונה</option>
+                  <option>מכבי אשדוד</option>
+                  <option>מכבי רוטשטיין אשדוד</option>
+                  <option>הפועל אשדוד</option>
+                  <option>מכבי גדרה</option>
+                  <option>מכבי באר יעקב</option>
+                  <option>הפועל גן יבנה</option>
+                  <option>מכבי קריית גת</option>
+                  <option>א.ס אשקלון</option>
+                  <option>הפועל אשקלון</option>
+                  <option>מכבי בת ים</option>
+                  <option>אליצור חולון</option>
+                  <option>הפועל חולון</option>
+                  <option>מכבי שדרות</option>
+                  <option>מועדון כדורסל שדרות</option>
+                  <option>מ.כ עוטף דרום</option>
+                </optgroup>
+                <optgroup label="ירושלים / יהודה / מודיעין">
+                  <option>הפועל ירושלים</option>
+                  <option>אליצור ירושלים</option>
+                  <option>אס״א ירושלים</option>
+                  <option>מכבי ירושלים</option>
+                  <option>בית״ר ירושלים</option>
+                  <option>מכבי מעלה אדומים</option>
+                  <option>אליצור גוש עציון</option>
+                  <option>אליצור מטה בנימין</option>
+                  <option>מכבי מודיעין רעות</option>
+                  <option>הפועל מטה יהודה</option>
+                  <option>הפועל מבשרת ציון</option>
+                  <option>מכבי בית אריה עופרים</option>
+                </optgroup>
+                <optgroup label="צפון / חיפה / גליל">
+                  <option>מכבי חיפה</option>
+                  <option>הפועל חיפה</option>
+                  <option>מכבי גיא נתן חיפה</option>
+                  <option>הפועל גליל עליון</option>
+                  <option>הפועל גליל תבור</option>
+                  <option>הפועל גלבוע מעיינות</option>
+                  <option>הפועל עמק יזרעאל</option>
+                  <option>מכבי נהריה</option>
+                  <option>עירוני נהריה</option>
+                  <option>מכבי כרמיאל</option>
+                  <option>מכבי נשר</option>
+                  <option>מכבי קריית ביאליק</option>
+                  <option>מכבי קריית מוצקין</option>
+                  <option>מכבי קריית ים</option>
+                  <option>מכבי קריית חיים</option>
+                  <option>אליצור קריית אתא</option>
+                  <option>מכבי זכרון יעקב</option>
+                  <option>מכבי חדרה</option>
+                  <option>מכבי ראש פינה</option>
+                  <option>מ.ס צפת</option>
+                  <option>מכבי מעלה יוסף</option>
+                  <option>מכבי שלומי</option>
+                  <option>הפועל עכו</option>
+                  <option>הפועל טירת כרמל</option>
+                  <option>אליצור טירת כרמל</option>
+                </optgroup>
+                <optgroup label="עמקים / גליל / יישובים קטנים">
+                  <option>מכבי בקעת בית שאן</option>
+                  <option>מכבי ירוחם</option>
+                  <option>מכבי נתיבות</option>
+                  <option>הפועל מגדל העמק יזרעאל</option>
+                  <option>הפועל יואב צפית</option>
+                  <option>הפועל באר טוביה</option>
+                  <option>הפועל לכיש</option>
+                  <option>הפועל מרחבים</option>
+                  <option>מכבי שדות נגב</option>
+                  <option>הפועל חבל אילות</option>
+                  <option>הפועל אילת</option>
+                  <option>מכבי אילת</option>
+                </optgroup>
+                <optgroup label="מגזר ערבי / דרוזי">
+                  <option>מכבי אום אל פחם</option>
+                  <option>מכבי אעבלין שפרעם</option>
+                  <option>מכבי שפרעם</option>
+                  <option>מכבי בסמ״ה</option>
+                  <option>מכבי בקה ג׳ת</option>
+                  <option>מכבי כפר קרע</option>
+                  <option>מכבי עילוט</option>
+                  <option>מכבי עין מאהל</option>
+                  <option>מכבי ערערה</option>
+                  <option>מכבי פרדיס</option>
+                  <option>מכבי רהט</option>
+                  <option>הפועל סכנין</option>
+                  <option>הפועל דיר חנא</option>
+                  <option>הפועל כאוכב</option>
+                  <option>הפועל כפר מנדא</option>
+                  <option>הפועל מג׳דל כרום</option>
+                  <option>הפועל עוספיא</option>
+                </optgroup>
+                <option value="other">קבוצה שלא ברשימה — הוסף ידנית</option>
+              </select>
+            </div>
+          </div>
+          <!-- Manual club input, shown when "other" selected -->
+          <div class="form-group" id="clubOtherGroup" style="display:none;">
+            <label>שם הקבוצה</label>
+            <input type="text" name="club_other" id="clubOther" placeholder="הכנס את שם הקבוצה שלך"/>
+          </div>
+
+          <!-- Position + Height -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Position <span class="req">*</span></label>
+              <div class="select-wrap">
+                <select name="position" required>
+                  <option value="" disabled selected>Position</option>
+                  <option value="PG">PG — Point Guard</option>
+                  <option value="SG">SG — Shooting Guard</option>
+                  <option value="SF">SF — Small Forward</option>
+                  <option value="PF">PF — Power Forward</option>
+                  <option value="C">C — Center</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Height (cm)</label>
+              <input type="number" name="height" placeholder="e.g. 185" min="140" max="230"/>
+            </div>
+          </div>
+
+          <!-- Dominant hand -->
+          <div class="form-group">
+            <label>יד חזקה (Dominant Hand) <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select name="dominant_hand" required>
+                <option value="" disabled selected>בחר יד חזקה</option>
+                <option value="right">ימני — Right</option>
+                <option value="left">שמאלי — Left</option>
+              </select>
+            </div>
+          </div>
+
+          <input type="hidden" name="age_group"  id="ageGroupHidden"/>
+          <input type="hidden" name="google_sub" id="googleSubHidden"/>
+          <input type="hidden" name="provider"   id="providerHidden" value="email"/>
+          <div id="formError" style="display:none; background:#fff0f0; border:1.5px solid #e05555; border-radius:6px; padding:11px 14px; font-size:13.5px; color:#c0392b; margin-bottom:14px;"></div>
+          <button type="submit" class="btn-submit">Create My Account →</button>
+        </form>
+
+        <p class="form-footer">
+          Already have an account? <a href="login.html">Sign in</a>
+        </p>
+        <p class="legal">
+          By registering you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+          Your data stays within Israel and is never sold.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ── Age group calculation ──
+    const SEASON_CUTOFF_MONTH = 8;
+    function getAgeGroup(birthDate) {
+      const today  = new Date();
+      const cutoff = new Date(today.getFullYear(), SEASON_CUTOFF_MONTH, 1);
+      const seasonYear = today >= cutoff ? today.getFullYear() : today.getFullYear() - 1;
+      const age = seasonYear - birthDate.getFullYear();
+      if (age <= 9)  return 'קטנטנים (U10)';
+      if (age <= 11) return 'קטנים (U12)';
+      if (age <= 13) return 'ילדים (U14)';
+      if (age <= 15) return 'נערים (U16)';
+      if (age <= 17) return 'נוער (U18)';
+      if (age <= 21) return 'צעירים (U22)';
+      return 'בוגרים (Senior)';
+    }
+
+    document.getElementById('birthDate').addEventListener('change', function() {
+      const el = document.getElementById('ageGroupDisplay');
+      if (!this.value) { el.textContent = 'Calculated from birth date'; el.classList.remove('filled'); return; }
+      const group = getAgeGroup(new Date(this.value));
+      el.textContent = group;
+      el.classList.add('filled');
+    });
+
+    // ── Show manual club input ──
+    document.getElementById('clubSelect').addEventListener('change', function() {
+      document.getElementById('clubOtherGroup').style.display = this.value === 'other' ? '' : 'none';
+    });
+
+    // ── Google pre-fill: fetch pending data if google_token in URL ──
+    (async function prefillGoogle() {
+      const params = new URLSearchParams(window.location.search);
+      const token  = params.get('google_token');
+      if (!token) return;
+
+      try {
+        const res  = await fetch(`http://localhost:8510/api/auth/google/pending?token=${token}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        // Pre-fill name + email
+        document.querySelector('[name=first_name]').value = data.given_name  || '';
+        document.querySelector('[name=last_name]').value  = data.family_name || '';
+        const emailEl = document.querySelector('[name=email]');
+        emailEl.value    = data.email || '';
+        emailEl.readOnly = true;
+        emailEl.style.background = '#f5f8f6';
+
+        // Store google sub + provider
+        document.getElementById('googleSubHidden').value = data.google_sub || '';
+        document.getElementById('providerHidden').value  = 'google';
+
+        // Hide password section (not needed for Google sign-in)
+        document.getElementById('passwordSection').style.display = 'none';
+        document.querySelectorAll('#passwordSection input').forEach(i => i.removeAttribute('required'));
+
+        // Show a Google badge on the button
+        document.querySelector('.btn-google').innerHTML =
+          `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+           Connected with Google ✓`;
+        document.querySelector('.btn-google').style.cssText += ';border-color:#34A853;color:#1a6b2a;cursor:default;pointer-events:none;';
+
+        // Clean URL without reloading
+        window.history.replaceState({}, '', window.location.pathname);
+      } catch(e) { /* silently ignore */ }
+    })();
+
+    // ── Form submit ──
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn      = this.querySelector('.btn-submit');
+      const errEl    = document.getElementById('formError');
+      const provider = document.getElementById('providerHidden').value;
+      errEl.style.display = 'none';
+
+      // Password check (email sign-up only)
+      if (provider !== 'google') {
+        const pw  = this.querySelector('[name=password]').value;
+        const cpw = this.querySelector('[name=confirm_password]').value;
+        if (pw !== cpw) { showError('Passwords do not match'); return; }
+      }
+
+      // Sync age group display → hidden field
+      document.getElementById('ageGroupHidden').value =
+        document.getElementById('ageGroupDisplay').textContent.replace('Calculated from birth date', '').trim();
+
+      btn.textContent = 'Creating account…';
+      btn.disabled    = true;
+
+      const endpoint = provider === 'google'
+        ? 'http://localhost:8510/api/register/google'
+        : 'http://localhost:8510/api/register';
+
+      try {
+        const res  = await fetch(endpoint, { method: 'POST', body: new FormData(this) });
+        const json = await res.json();
+        if (!res.ok) {
+          showError(json.detail || 'Registration failed');
+          btn.disabled    = false;
+          btn.textContent = 'Create My Account →';
+          return;
+        }
+        btn.textContent      = '✓ Account created!';
+        btn.style.background = '#7adb8f';
+        btn.style.color      = '#054530';
+        localStorage.setItem('dc_user', JSON.stringify({user_id: json.user_id, name: json.name}));
+        setTimeout(() => { window.location.href = `http://localhost:8510/dashboard?user_id=${json.user_id}`; }, 1800);
+      } catch (err) {
+        showError('Could not reach the server — make sure the API is running (python landing/api.py).');
+        btn.disabled    = false;
+        btn.textContent = 'Create My Account →';
+      }
+    });
+
+    function showError(msg) {
+      const el = document.getElementById('formError');
+      el.textContent  = msg;
+      el.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

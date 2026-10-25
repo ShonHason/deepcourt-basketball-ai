@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In — DeepCourt.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --clr-base-dk:   #054530;
+      --clr-accent-dk: #001c0f;
+      --clr-accent:    #7adb8f;
+      --clr-text-lt:   #002b1a;
+      --radius:        6px;
+      --font-head:     'Poppins', sans-serif;
+      --font-body:     'Nunito Sans', sans-serif;
+    }
+    html, body { min-height: 100vh; font-family: var(--font-body); background: var(--clr-base-dk); color: #fff; }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px; background: var(--clr-accent-dk);
+    }
+    .logo {
+      font-family: var(--font-head); font-weight: 700; font-size: 22px;
+      color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px;
+    }
+    .logo svg { width: 28px; height: 28px; }
+    .topbar-link { font-family: var(--font-head); font-size: 13px; color: rgba(255,255,255,0.65); text-decoration: none; }
+    .topbar-link:hover { color: var(--clr-accent); }
+
+    /* ── Page layout ── */
+    .page { display: flex; min-height: calc(100vh - 64px); }
+
+    /* ── Left panel ── */
+    .left-panel {
+      flex: 0 0 460px; background: var(--clr-accent-dk);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 40px; position: relative; overflow: hidden;
+    }
+    .left-panel svg.court-bg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.22; }
+    .left-tagline { position: relative; z-index: 1; text-align: center; }
+    .left-tagline h2 { font-family: var(--font-head); font-size: 28px; font-weight: 700; line-height: 1.25; margin-bottom: 16px; }
+    .left-tagline h2 span { color: var(--clr-accent); }
+    .left-tagline p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.7; max-width: 300px; }
+    .left-stats { position: relative; z-index: 1; display: flex; gap: 32px; margin-top: 48px; }
+    .left-stat { text-align: center; }
+    .left-stat strong { display: block; font-family: var(--font-head); font-size: 28px; font-weight: 700; color: var(--clr-accent); }
+    .left-stat span { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ── Right panel ── */
+    .right-panel {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 52px 48px;
+    }
+
+    /* ── Form card ── */
+    .form-card {
+      background: #fff; border-radius: 14px; padding: 44px 44px 48px;
+      width: 100%; max-width: 460px; color: var(--clr-text-lt);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.22);
+    }
+    .form-card h1 { font-family: var(--font-head); font-size: 26px; font-weight: 700; color: var(--clr-base-dk); margin-bottom: 6px; }
+    .form-card .subtitle { font-size: 14px; color: rgba(0,43,26,0.55); margin-bottom: 28px; }
+
+    /* Success state */
+    .success-card {
+      text-align: center; padding: 20px 0;
+    }
+    .success-card .check-circle {
+      width: 72px; height: 72px; background: var(--clr-accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+    }
+    .success-card h2 { font-family: var(--font-head); font-size: 22px; color: var(--clr-base-dk); margin-bottom: 8px; }
+    .success-card p { font-size: 14px; color: rgba(0,43,26,0.55); }
+
+    /* Google button */
+    .btn-google {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 13px 20px; border: 1.5px solid #d4dde4; border-radius: var(--radius);
+      background: #fff; font-family: var(--font-head); font-size: 14px; font-weight: 500;
+      color: #444; cursor: pointer; transition: border-color 0.2s, background 0.2s; text-decoration: none;
+    }
+    .btn-google:hover { border-color: var(--clr-base-dk); background: #f7faf9; }
+    .btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* Divider */
+    .divider {
+      display: flex; align-items: center; gap: 12px; margin: 24px 0;
+      color: rgba(0,43,26,0.35); font-size: 13px;
+    }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(0,43,26,0.12); }
+
+    /* Form fields */
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-family: var(--font-head); font-size: 12px; font-weight: 600;
+      color: var(--clr-base-dk); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .form-group label .req { color: #e06030; margin-left: 2px; }
+    .form-group input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #d4dde4; border-radius: var(--radius);
+      font-family: var(--font-body); font-size: 14px; color: var(--clr-text-lt); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus { border-color: var(--clr-base-dk); box-shadow: 0 0 0 3px rgba(5,69,48,0.10); }
+    .form-group input::placeholder { color: rgba(0,43,26,0.32); }
+
+    .forgot { text-align: right; margin-top: -10px; margin-bottom: 18px; }
+    .forgot a { font-size: 12.5px; color: rgba(0,43,26,0.45); text-decoration: none; }
+    .forgot a:hover { color: var(--clr-base-dk); }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%; padding: 15px; background: var(--clr-base-dk); color: #fff; border: none;
+      border-radius: var(--radius); font-family: var(--font-head); font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s, transform 0.15s; margin-top: 4px;
+    }
+    .btn-submit:hover { background: var(--clr-accent-dk); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-footer { text-align: center; margin-top: 20px; font-size: 13px; color: rgba(0,43,26,0.50); }
+    .form-footer a { color: var(--clr-base-dk); font-weight: 600; text-decoration: none; }
+    .form-footer a:hover { text-decoration: underline; }
+
+    /* Error */
+    #formError {
+      display: none; background: #fff0f0; border: 1.5px solid #e05555;
+      border-radius: 6px; padding: 11px 14px; font-size: 13.5px; color: #c0392b; margin-bottom: 14px;
+    }
+
+    @media (max-width: 900px) { .left-panel { display: none; } .right-panel { padding: 32px 20px; } }
+    @media (max-width: 480px) { .topbar { padding: 16px 20px; } .form-card { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="13" fill="#e87820"/>
+        <path d="M14 1v26M1 14h26" stroke="#fff" stroke-width="2"/>
+        <path d="M4 5Q14 14 24 23" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <path d="M24 5Q14 14 4 23" stroke="#fff" stroke-width="1.5" fill="none"/>
+      </svg>
+      DeepCourt
+    </a>
+    <a href="index.html" class="topbar-link">← Back to homepage</a>
+  </header>
+
+  <div class="page">
+
+    <!-- Left art panel -->
+    <aside class="left-panel">
+      <svg class="court-bg" viewBox="0 0 460 600" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="30" width="400" height="540" fill="rgba(122,219,143,0.08)" stroke="rgba(122,219,143,0.40)" stroke-width="2.5"/>
+        <line x1="230" y1="30" x2="230" y2="570" stroke="rgba(122,219,143,0.35)" stroke-width="2"/>
+        <circle cx="230" cy="300" r="60" fill="none" stroke="rgba(122,219,143,0.35)" stroke-width="2"/>
+        <circle cx="230" cy="300" r="5" fill="rgba(122,219,143,0.5)"/>
+        <rect x="30" y="195" width="145" height="210" fill="rgba(155,60,18,0.22)" stroke="rgba(122,219,143,0.30)" stroke-width="1.5"/>
+        <rect x="285" y="195" width="145" height="210" fill="rgba(155,60,18,0.22)" stroke="rgba(122,219,143,0.30)" stroke-width="1.5"/>
+        <path d="M 175 195 A 60 60 0 0 1 175 405" fill="none" stroke="rgba(122,219,143,0.28)" stroke-width="1.5"/>
+        <path d="M 285 195 A 60 60 0 0 0 285 405" fill="none" stroke="rgba(122,219,143,0.28)" stroke-width="1.5"/>
+        <path d="M 30 90 A 230 230 0 0 1 30 510" fill="none" stroke="rgba(122,219,143,0.22)" stroke-width="1.5"/>
+        <path d="M 430 90 A 230 230 0 0 0 430 510" fill="none" stroke="rgba(122,219,143,0.22)" stroke-width="1.5"/>
+        <circle cx="100" cy="300" r="14" fill="none" stroke="rgba(255,175,60,0.60)" stroke-width="2"/>
+        <circle cx="360" cy="300" r="14" fill="none" stroke="rgba(255,175,60,0.60)" stroke-width="2"/>
+      </svg>
+      <div class="left-tagline">
+        <h2>Good to see you<br/><span>back on the court</span></h2>
+        <p>Sign in to see your stats, play-by-play, and development insights from your last game.</p>
+      </div>
+      <div class="left-stats">
+        <div class="left-stat"><strong>19+</strong><span>Players tracked</span></div>
+        <div class="left-stat"><strong>253+</strong><span>Events detected</span></div>
+        <div class="left-stat"><strong>3</strong><span>Smart feeds</span></div>
+      </div>
+    </aside>
+
+    <!-- Login form -->
+    <main class="right-panel">
+      <div class="form-card" id="formCard">
+
+        <!-- Success state (shown after login) -->
+        <div class="success-card" id="successCard" style="display:none;">
+          <div class="check-circle">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#054530" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h2>Welcome back, <span id="welcomeName" style="color:#054530;"></span>!</h2>
+          <p style="margin-top:8px;">Redirecting to your dashboard…</p>
+        </div>
+
+        <!-- Login form (default state) -->
+        <div id="loginForm">
+          <h1>Welcome back</h1>
+          <p class="subtitle">Sign in to your DeepCourt account.</p>
+
+          <!-- Google -->
+          <a href="http://localhost:8510/api/auth/google?intent=login" class="btn-google">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+          </a>
+
+          <div class="divider">or sign in with email</div>
+
+          <div id="formError"></div>
+
+          <form id="emailLoginForm" novalidate>
+            <div class="form-group">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="email" placeholder="ran@maccabi.co.il" required autocomplete="email"/>
+            </div>
+            <div class="form-group">
+              <label>Password <span class="req">*</span></label>
+              <input type="password" name="password" placeholder="Your password" required/>
+            </div>
+            <div class="forgot"><a href="#">Forgot password?</a></div>
+            <button type="submit" class="btn-submit">Sign In →</button>
+          </form>
+
+          <p class="form-footer">
+            Don't have an account? <a href="register.html">Create one free</a>
+          </p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ── Handle Google login success redirect (?success=1&name=...) ──
+    (function checkGoogleSuccess() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('success') !== '1') return;
+      const name   = decodeURIComponent(params.get('name')    || 'Player');
+      const userId = decodeURIComponent(params.get('user_id') || '');
+      showSuccess(name, userId);
+      window.history.replaceState({}, '', window.location.pathname);
+    })();
+
+    // ── Email login form ──
+    document.getElementById('emailLoginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.btn-submit');
+      const errEl = document.getElementById('formError');
+      errEl.style.display = 'none';
+      btn.textContent = 'Signing in…';
+      btn.disabled = true;
+
+      try {
+        const res  = await fetch('http://localhost:8510/api/login', { method: 'POST', body: new FormData(this) });
+        const json = await res.json();
+        if (!res.ok) {
+          showError(json.detail || 'Login failed');
+          btn.disabled = false;
+          btn.textContent = 'Sign In →';
+          return;
+        }
+        const firstName = (json.name || 'Player').split(' ')[0];
+        showSuccess(firstName, json.user_id || '');
+      } catch (err) {
+        showError('Could not reach the server — make sure the API is running (python landing/api.py).');
+        btn.disabled = false;
+        btn.textContent = 'Sign In →';
+      }
+    });
+
+    function showSuccess(name, userId) {
+      const uid = userId || '';
+      localStorage.setItem('dc_user', JSON.stringify({user_id: uid, name: name}));
+      document.getElementById('loginForm').style.display   = 'none';
+      document.getElementById('successCard').style.display = '';
+      document.getElementById('welcomeName').textContent   = name;
+      setTimeout(() => { window.location.href = `http://localhost:8510/dashboard?user_id=${uid}`; }, 2000);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('formError');
+      el.textContent   = msg;
+      el.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

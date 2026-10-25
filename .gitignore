@@ -1,0 +1,26 @@
+.env
+*.pt
+*.pth
+__pycache__/
+*.pyc
+.DS_Store
+data/input/
+data/output/
+data/videos/
+data/courtlog.db
+data/videoMockup/*.mp4
+data/videoMockup/*.mkv
+data/videoMockup/*.webm
+data/videoMockup/*.avi
+models/
+.venv/
+venv/
+
+# Large / local artifacts
+data/
+runs/
+*.db
+*.db-shm
+*.db-wal
+*.log
+.pytest_cache/

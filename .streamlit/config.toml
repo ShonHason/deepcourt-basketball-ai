@@ -1,0 +1,10 @@
+[server]
+maxUploadSize = 2000        # MB — large game files can be 1-2 GB
+
+[theme]
+base = "dark"
+primaryColor = "#FF6B00"    # basketball orange
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1A1D26"
+textColor = "#FAFAFA"
+font = "sans serif"
