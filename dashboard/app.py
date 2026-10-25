@@ -17,7 +17,6 @@ from src import database as db
 # ─── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="DeepCourt",
-    page_icon="🏀",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -1047,7 +1046,7 @@ def _player_card_html(
         f'<div class="dc-card-shine"></div>'
         f'<div class="dc-card-header">'
         f'<div class="dc-card-rating">{rating}</div>'
-        f'<div class="dc-card-pos-wrap">{pos_html}<div class="dc-card-flag">🇮🇱</div></div>'
+        f'<div class="dc-card-pos-wrap">{pos_html}</div>'
         f'</div>'
         f'<div class="dc-card-av-wrap">'
         f'<div class="dc-card-av-ring"></div>'
@@ -1133,7 +1132,7 @@ def _render_header(user: Optional[dict]) -> str:
         query = st.text_input(
             "search",
             key="search_query",
-            placeholder="🔍  Players, clubs, teams…",
+            placeholder="Players, clubs, teams…",
             label_visibility="collapsed",
         )
     with c_nav:
@@ -1307,7 +1306,7 @@ def _my_card_html(user: dict, editing: bool = False, friend_count: int = 0) -> s
         )
         edit_btn = (
             f'<a href="?user_id={uid}&page=profile&edit=1" target="_self" '
-            f'class="dc-pcard-edit" title="Edit profile">✏</a>'
+            f'class="dc-pcard-edit" title="Edit profile">Edit</a>'
         )
         _lbl = "friend" if friend_count == 1 else "friends"
         friends_badge = (
@@ -1320,8 +1319,7 @@ def _my_card_html(user: dict, editing: bool = False, friend_count: int = 0) -> s
         info_html = (
             f'<div class="dc-pcard-info">'
             f'{edit_btn}'
-            f'<div class="dc-pcard-name">{_html.escape(name)}&nbsp;'
-            f'<span class="dc-pcard-flag">🇮🇱</span></div>'
+            f'<div class="dc-pcard-name">{_html.escape(name)}</div>'
             f'<div class="dc-pcard-pos-row">{pos_badges}{friends_badge}</div>'
             f'<div class="dc-pcard-details">{details_html}</div>'
             f'</div>'
@@ -1441,7 +1439,7 @@ select option{{background:#091810;color:#fff;}}
   </div>
   <div class="info">
     <a class="close-btn" onclick="cancel()" title="Cancel">✕</a>
-    <div class="pname">{_html.escape(name)}&nbsp;🇮🇱</div>
+    <div class="pname">{_html.escape(name)}</div>
     <div class="grid">
       <div>
         <div class="label">Position</div>
@@ -1601,7 +1599,7 @@ def _render_feed(user: Optional[dict]):
             f'<div class="dc-feed-card">'
             f'<img class="dc-feed-card-av" src="{av}" alt="{uploader}">'
             f'<div class="dc-feed-card-info">'
-            f'<div class="dc-feed-card-title">🎬 {_html.escape(j.get("name") or "Untitled game")}</div>'
+            f'<div class="dc-feed-card-title">{_html.escape(j.get("name") or "Untitled game")}</div>'
             f'<div class="dc-feed-card-meta">{meta_str}</div>'
             f'</div>'
             f'<span class="dc-feed-card-badge">{badge}</span>'
@@ -1879,7 +1877,7 @@ def _render_analyse_videos(user: dict):
             st.markdown(
                 '<div style="background:rgba(255,255,255,0.04);border-radius:10px;'
                 'padding:28px;text-align:center;color:rgba(255,255,255,0.3);margin-bottom:16px">'
-                '🎬 Video file not found on disk</div>',
+                'Video file not found on disk</div>',
                 unsafe_allow_html=True,
             )
 
@@ -1894,7 +1892,7 @@ def _render_analyse_videos(user: dict):
                 row_l, row_r = st.columns([4, 1])
                 with row_l:
                     st.markdown(
-                        f'<span class="dc-invite-name">👤 {_html.escape(tm["display_name"])}'
+                        f'<span class="dc-invite-name">{_html.escape(tm["display_name"])}'
                         f' <span style="color:rgba(255,255,255,0.3);font-size:11px">· {_html.escape(tm["team_name"])}</span></span>',
                         unsafe_allow_html=True,
                     )
@@ -1992,7 +1990,7 @@ def _trigger_file_picker(input_index: int = 0) -> None:
 def _render_upload_analyse(user: dict):
     """Dedicated upload page → queues video for pipeline analysis, saved per user."""
     uid = user["id"]
-    st.markdown('<div class="dc-upload-title">🎬 Upload Game for Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="dc-upload-title">Upload Game for Analysis</div>', unsafe_allow_html=True)
     st.markdown(
         '<div style="color:rgba(255,255,255,0.45);font-size:13px;font-family:Poppins,sans-serif;margin-bottom:20px">'
         'Upload a game video. Our AI will detect players, generate box scores, play-by-play, and learning moments.</div>',
@@ -2003,7 +2001,7 @@ def _render_upload_analyse(user: dict):
     if not uploaded:
         _trigger_file_picker(0)
     if uploaded:
-        st.caption(f"📄 {uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
+        st.caption(f"{uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
         col_a, col_b = st.columns(2)
         with col_a:
             scope = st.selectbox("Game scope", [
@@ -2013,7 +2011,7 @@ def _render_upload_analyse(user: dict):
         with col_b:
             q_len = st.selectbox("Quarter length (min)", [8, 10, 12, 20])
 
-        if st.button("🚀 Start Analysis", use_container_width=True):
+        if st.button("Start Analysis", use_container_width=True):
             submit_key = f"_submitted_analyse_{uploaded.file_id}"
             if not st.session_state.get(submit_key):
                 st.session_state[submit_key] = True
@@ -2036,7 +2034,7 @@ def _render_upload_analyse(user: dict):
                 db.save_job(job)
                 _Q.enqueue(job)
                 _Q.ensure_worker()
-                st.success(f"✅ **{uploaded.name}** queued for analysis!")
+                st.success(f"**{uploaded.name}** queued for analysis!")
                 time.sleep(0.8)
                 # Navigate to analyse videos page to watch progress
                 st.query_params["page"] = "analyse_videos"
@@ -2046,7 +2044,7 @@ def _render_upload_analyse(user: dict):
 def _render_upload_other(user: dict):
     """Dedicated upload page → saves casual video to DB (no analysis)."""
     uid = user["id"]
-    st.markdown('<div class="dc-upload-title">📹 Upload Other Video</div>', unsafe_allow_html=True)
+    st.markdown('<div class="dc-upload-title">Upload Other Video</div>', unsafe_allow_html=True)
     st.markdown(
         '<div style="color:rgba(255,255,255,0.45);font-size:13px;font-family:Poppins,sans-serif;margin-bottom:20px">'
         'Share clips of your skills, training sessions, or highlights. No analysis — just your video.</div>',
@@ -2057,10 +2055,10 @@ def _render_upload_other(user: dict):
     if not uploaded:
         _trigger_file_picker(0)
     if uploaded:
-        st.caption(f"📄 {uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
+        st.caption(f"{uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
         title = st.text_input("Video title", value=Path(uploaded.name).stem, placeholder="e.g. Ball handling drills")
 
-        if st.button("💾 Save Video", use_container_width=True):
+        if st.button("Save Video", use_container_width=True):
             submit_key = f"_submitted_other_{uploaded.file_id}"
             if not st.session_state.get(submit_key):
                 st.session_state[submit_key] = True
@@ -2071,7 +2069,7 @@ def _render_upload_other(user: dict):
                 save_path = save_dir / f"{vid_id}{ext}"
                 save_path.write_bytes(uploaded.read())
                 db.save_other_video(user_id=uid, title=title or uploaded.name, file_path=str(save_path), video_id=vid_id)
-                st.success(f"✅ **{title or uploaded.name}** saved!")
+                st.success(f"**{title or uploaded.name}** saved!")
                 time.sleep(0.8)
                 st.query_params["page"] = "other_videos"
                 st.rerun()
@@ -2107,7 +2105,7 @@ def _render_upload():
             label_visibility="collapsed",
         )
         if uploaded:
-            st.caption(f"📄 {uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
+            st.caption(f"{uploaded.name}  ·  {uploaded.size/1_000_000:.1f} MB")
             col_a, col_b = st.columns(2)
             with col_a:
                 scope = st.selectbox("Game scope", [
@@ -2139,7 +2137,7 @@ def _render_upload():
                     db.save_job(job)
                     _Q.enqueue(job)
                     _Q.ensure_worker()
-                    st.success(f"✅ **{uploaded.name}** queued for analysis")
+                    st.success(f"**{uploaded.name}** queued for analysis")
                     time.sleep(0.8)
                     st.rerun()
 
@@ -2378,7 +2376,7 @@ def _render_results(job: dict):
         unsafe_allow_html=True,
     )
 
-    tab_cards, tab_bs, tab_pbp = st.tabs(["🃏 Player Cards", "📊 Box Score", "📝 Play-by-Play"])
+    tab_cards, tab_bs, tab_pbp = st.tabs(["Player Cards", "Box Score", "Play-by-Play"])
 
     with tab_cards:
         _render_player_cards(job)
@@ -2409,11 +2407,10 @@ def _render_results(job: dict):
                         q_lbl  = f"Q{line['quarter']}" if line["quarter"] <= 4 else f"OT{line['quarter']-4}"
                         st.markdown(f"**── {q_lbl} ──**")
                     colour = "#FFC300" if line["is_learning_moment"] else "#cce8ff"
-                    icon   = "🎯 " if line["is_learning_moment"] else ""
                     st.markdown(
                         f'<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">'
                         f'<span style="color:rgba(255,255,255,0.3);font-size:11.5px;margin-right:12px">{line["clock"]}</span>'
-                        f'<span style="color:{colour};font-size:13px">{icon}{_html.escape(line["text"])}</span>'
+                        f'<span style="color:{colour};font-size:13px">{_html.escape(line["text"])}</span>'
                         f'</div>',
                         unsafe_allow_html=True,
                     )

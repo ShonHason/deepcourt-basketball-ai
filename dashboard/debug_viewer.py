@@ -120,22 +120,19 @@ with right:
                 from collections import Counter
                 counts = Counter(df["Team"])
                 cols = st.columns(len(counts))
-                colors_map = {"team_a": "🔵", "team_b": "🔴",
-                              "REF/staff": "🟡", "unclassified": "⚫"}
                 for i, (team, cnt) in enumerate(sorted(counts.items())):
-                    icon = colors_map.get(team, "⚪")
-                    cols[i].metric(f"{icon} {team}", f"{cnt} tracks")
+                    cols[i].metric(team, f"{cnt} tracks")
 
 # ── what to look for ─────────────────────────────────────────────────────────
 with st.expander("What to look for"):
     st.markdown("""
-**Good signs ✅**
+**Good signs**
 - Team A has ~5 tracks, Team B has ~5 tracks
 - Refs and coaches appear as **Yellow (REF/staff)** or **Gray (unknown)** — NOT blue or red
 - The same player keeps the same color throughout the video (track IDs are stable)
 - Players with jerseys clearly on one team stay that color even when running to the other side
 
-**Bad signs ❌**
+**Bad signs**
 - A referee or coach showing up as Blue or Red → dark jersey filter may need tuning
 - One team has 10+ tracks → track fragmentation (player losing and re-gaining track ID)
 - Lots of Gray tracks → hue sampling not getting enough frames per player
